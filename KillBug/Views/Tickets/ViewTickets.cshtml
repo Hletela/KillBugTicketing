@@ -1,0 +1,82 @@
+﻿@using KillBug.Models
+@model IEnumerable<Ticket>
+
+<table class="table table-striped" id="tickTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Priority")
+            </th>
+            <th>
+                @Html.DisplayName("Project")
+            </th>
+            <th>
+                @Html.DisplayName("Title")
+            </th>
+            <th>
+                @Html.DisplayName("Developer")
+            </th>
+            <th>
+                @Html.DisplayName("Type")
+            </th>
+            <th>
+                @Html.DisplayName("Status")
+            </th>
+            <th>
+                @Html.DisplayName("Created")
+            </th>
+            <th>
+                @Html.DisplayName("Submitter")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Developer.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Submitter.FullName)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", "Tickets", new { id = item.Id }, null)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        //ACTIVATE SIDE MENU BUTTON
+        $('#TicketsMenu').click()
+        if ("@ViewBag.Title" == "My Tickets") {
+            $('#MyTickets').addClass("active")
+        } else {
+            $('#AllTickets').addClass("active")
+        }
+
+        $('.table').DataTable();
+    </script>
+}
