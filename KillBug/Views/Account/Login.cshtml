@@ -32,7 +32,7 @@
 <br>
 <small>Do not have an account? </small>@Html.ActionLink("Sign Up!", "Register", null, new { @class = "signup" })
 <hr />
-<small>Sign up with an External Login!</small>
+@*<small>Sign up with an External Login!</small>
 <div id="socialLoginList">
     <p>
         @using (Html.BeginForm("ExternalLogin", "Account", FormMethod.Post, htmlAttributes: new { style = "max-width: 100%" }))
@@ -46,19 +46,62 @@
         }
     </p>
 </div>
-<hr />
+<hr />*@
 <small>Try a Demo User!</small>
 <div id="DemoAdmin">
     <p>
-        @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post, htmlAttributes: new { style = "max-width: 100%" }))
-        {
-            @Html.AntiForgeryToken()
 
-            <button type="submit" class="btn btn-primary" name="emailKey" value="DemoEmailAdmin">Admin</button>
-            <button type="submit" class="btn btn-primary" name="emailKey" value="DemoEmailProjectManager">Project Manager</button>
-            <button type="submit" class="btn btn-primary" name="emailKey" value="DemoEmailDeveloper">Developer</button>
-            <button type="submit" class="btn btn-primary" name="emailKey" value="DemoEmailSubmitter">Submitter</button>
-        }
+        <div class="row">
+            <div class="col-md-6">
+                @using (Html.BeginForm("DemoLoginAsync", "Account", new { userType = "Submitter", returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, null))
+                {
+                   @Html.AntiForgeryToken()
+
+                    @*<input class="form-control" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="SubmitterEmail" name="Email" type="hidden" value="submitter@test.com" />
+                    <input class="form-control" data-val="true" data-val-required="The Password field is required." id="SubmitterPassword" name="Password" type="hidden" value="Abc&1234!" />*@
+
+                    <button type="submit" class="btn btn-primary">Submitter</button>
+
+                }
+            </div>
+                            <div class="col-md-6">
+                                @using (Html.BeginForm("DemoLoginAsync", "Account", new { userType = "Developer", returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, null))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    @*<input class="form-control" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="DeveloperEmail" name="Email" type="hidden" value="developer@test.com" />
+                                    <input class="form-control" data-val="true" data-val-required="The Password field is required." id="DeveloperPassword" name="Password" type="hidden" value="Abc&123!" />*@
+
+                                <button type="submit" class="btn btn-primary">Developer</button>
+
+                                }
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                @using (Html.BeginForm("DemoLoginAsync", "Account", new { userType = "Project Manager", returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, null))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    @*<input data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="ProjectManagerEmail" name="Email" type="hidden" value="manager@test.com" />
+                                        <input data-val="true" data-val-required="The Password field is required." id="ProjectManagerPassword" name="Password" type="hidden" value="Abc&123!" />*@
+                                    <button type="submit" class="btn btn-primary">Project Manager</button>
+                                }
+                            </div>
+                            <div class="col-md-6">
+                                @using (Html.BeginForm("DemoLoginAsync", "Account", new { userType = "Admin", returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, null))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    @*<input data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="AdminEmail" name="Email" type="hidden" value="admin@test.com" />
+                                     <input data-val="true" data-val-required="The Password field is required." id="AdminPassword" name="Password" type="hidden" value="Abc&123!" />*@
+                                <button type="submit" class="btn btn-primary">Admin</button>
+
+                                }
+                            </div>
+                        </div>
     </p>
 </div>
 

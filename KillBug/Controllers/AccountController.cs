@@ -97,20 +97,43 @@ namespace KillBug.Controllers
         // DEMO USER LOGIN
         // POST: /Account/Login
         [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
-        public async Task<ActionResult> DemoLoginAsync(string emailKey)
+       public async Task<ActionResult> DemoLoginAsync(string userType, string returnUrl)
         {
-            var email = WebConfigurationManager.AppSettings[emailKey];
-            var password = WebConfigurationManager.AppSettings["DemoPassword"];
+            var loginModel = new LoginViewModel();
+            Task<ActionResult> actionResult = null;
 
-            var result = await SignInManager.PasswordSignInAsync(email, password, false, shouldLockout: false);
-            switch (result)
+            if (!ModelState.IsValid)
             {
-                case SignInStatus.Success:
-                    return RedirectToAction("Main", "Dashboard");
-                case SignInStatus.Failure:
-                default:
-                    return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login","Account");
             }
+
+            //log in to the application with credentials based on the type of user
+            else
+            {       
+                switch (userType)
+                {
+                    case "Submitter":
+                        loginModel.Email = "submitter@test.com";
+                        loginModel.Password = "Abc&1234!";
+                        break;
+                    case "Developer":
+                        loginModel.Email = "developer@test.com";
+                        loginModel.Password = "Dev@123456";
+                        break;
+                    case "Project Manager":
+                        loginModel.Email = "manager@test.com";
+                        loginModel.Password = "Abc&123!";
+                        break;
+                    case "Admin":
+                        loginModel.Email = "admin@test.com";
+                        loginModel.Password = "Abc&123!";
+                        break;
+                    default:
+                        return View("Error");
+                }
+                actionResult = Login(loginModel, returnUrl) as Task<ActionResult>;
+                return await actionResult;
+            }         
         }
 
         //
